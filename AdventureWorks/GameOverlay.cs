@@ -25,10 +25,6 @@ namespace AdventureWorks
 
         public GameOverlay(ContentManager contentManager)
         {
-            textBox = contentManager.Load<Texture2D>("TextField");
-            textArea = new Rectangle(0, 400, 800, 200);
-            mainBox = contentManager.Load<Texture2D>("MainField");
-            mainArea = new Rectangle(0, 0, 800, 400);
             grey = contentManager.Load<Texture2D>("grey");
 
             for (int i = 0; i < 3; i++)

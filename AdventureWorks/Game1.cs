@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Threading;
 
 namespace AdventureWorks
 {
@@ -17,7 +18,8 @@ namespace AdventureWorks
         SpriteFont font;
         GameOverlay gameOverlay;
 
-
+        Thread mainThread;
+        
 
         public Game1()
         {
@@ -52,11 +54,18 @@ namespace AdventureWorks
             // TODO: use this.Content to load your game content here
 
             // load sprite font
-            font = Content.Load<SpriteFont>(@"fonts/Arial20");
+            font = Content.Load<SpriteFont>("Arial20");
 
             gameOverlay = new GameOverlay(Content);
 
+            mainThread = new Thread(new ThreadStart(consoleStart));
 
+
+        }
+
+        void consoleStart()
+        {
+            
         }
 
         /// <summary>
