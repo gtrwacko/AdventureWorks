@@ -17,9 +17,13 @@ namespace AdventureWorks
 
         SpriteFont font;
         GameOverlay gameOverlay;
+        GamePlayText gamePlayText;
 
-        Thread mainThread;
-        
+        String startingText;
+        String parsedText;
+
+        KeyboardState kbState = Keyboard.GetState();
+
 
         public Game1()
         {
@@ -39,6 +43,7 @@ namespace AdventureWorks
         {
             // TODO: Add your initialization logic here
 
+
             base.Initialize();
         }
 
@@ -55,11 +60,12 @@ namespace AdventureWorks
 
             // load sprite font
             font = Content.Load<SpriteFont>("Arial20");
+            
 
             gameOverlay = new GameOverlay(Content);
-
-            mainThread = new Thread(new ThreadStart(consoleStart));
-
+            gamePlayText = new GamePlayText(Content);
+            startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
+            
 
         }
 
@@ -89,7 +95,12 @@ namespace AdventureWorks
 
             // TODO: Add your update logic here
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                gamePlayText.AddText(startingText);
+            }
 
+            gamePlayText.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -106,10 +117,13 @@ namespace AdventureWorks
             spriteBatch.Begin();
 
             gameOverlay.Draw(spriteBatch);
+            gamePlayText.Draw(spriteBatch);
+            
             
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
     }
 }

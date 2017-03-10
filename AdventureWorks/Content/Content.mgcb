@@ -163,3 +163,9 @@
 /processorParam:TextureFormat=Compressed
 /build:Arial20.spritefont
 
+#begin CodersCrux28.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:CodersCrux28.spritefont
+
