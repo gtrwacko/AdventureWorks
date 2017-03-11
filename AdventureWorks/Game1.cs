@@ -22,7 +22,8 @@ namespace AdventureWorks
         String startingText;
         String parsedText;
 
-        KeyboardState kbState = Keyboard.GetState();
+        KeyboardState kbState;
+        KeyboardState lastKBState;
 
 
         public Game1()
@@ -95,12 +96,20 @@ namespace AdventureWorks
 
             // TODO: Add your update logic here
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            kbState = Keyboard.GetState();
+
+            if (kbState.IsKeyDown(Keys.F1) && lastKBState.IsKeyUp(Keys.F1))
             {
                 gamePlayText.AddText(startingText);
             }
+            if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter))
+            {
+                gamePlayText.Dump();
+            }
 
             gamePlayText.Update(gameTime);
+
+            lastKBState = kbState;
             base.Update(gameTime);
         }
 

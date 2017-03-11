@@ -18,11 +18,11 @@ namespace AdventureWorks
         double typedTextLength;
         int delayInMilliseconds;
         bool isDoneDrawing;
+        bool isDumping;
         SpriteFont codersCrux;
         enum lineStatus { ToBePrinted, Printing, Printed };
         List<String> printedText;
         int startingLine;
-        int lastPrintedLine;
         Queue<String> textQueue;
 
 
@@ -30,13 +30,12 @@ namespace AdventureWorks
 
         public GamePlayText(ContentManager contentManager)
         {
-            delayInMilliseconds = 50;
+            delayInMilliseconds = 75;
             isDoneDrawing = true;
 
             codersCrux = contentManager.Load<SpriteFont>("CodersCrux28");
             printedText = new List<string>();
             startingLine = 0;
-            lastPrintedLine = 0;
             textQueue = new Queue<string>();
             
         }
@@ -69,6 +68,7 @@ namespace AdventureWorks
             {
                 isDoneDrawing = false;
                 parsedText = textQueue.Dequeue();
+                printedText.Add(String.Empty);
             }
 
             if(!isDoneDrawing)
@@ -111,9 +111,28 @@ namespace AdventureWorks
 
         private void RollOutText(GameTime gameTime)
         {
+            if (isDumping && (!isDoneDrawing || textQueue.Count > 0))
+            {
+
+                printedText[printedText.Count-1] = parsedText;
+                parsedText = String.Empty;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (i < textQueue.Count)
+                    { printedText.Add(textQueue.Dequeue()); }
+                }
+                isDumping = false;
+                isDoneDrawing = true;
+                startingLine = printedText.Count - 8;
+                if (startingLine < 0)
+                { startingLine = 0; }
+            }
+
+
             if (!isDoneDrawing)
             {
-                startingLine = lastPrintedLine - 7;
+                startingLine = printedText.Count - 8;
                 if (startingLine<0)
                 { startingLine = 0; }
 
@@ -132,14 +151,13 @@ namespace AdventureWorks
                         isDoneDrawing = true;
                     }
 
-                    if(lastPrintedLine >= printedText.Count())
-                    { printedText.Add(String.Empty); }
-                         printedText[lastPrintedLine] = parsedText.Substring(0, (int)typedTextLength);
+                         printedText[printedText.Count-1] = parsedText.Substring(0, (int)typedTextLength);
 
                     if(isDoneDrawing)
                     {
-                        lastPrintedLine++;
                         typedTextLength = 0;
+                        parsedText = String.Empty;
+
                     }
                 }
             } 
@@ -148,6 +166,12 @@ namespace AdventureWorks
         public void AddText(String text)
         {
             parseText(text);
+        }
+
+        public void Dump()
+        {
+            if(textQueue.Count > 0 || !isDoneDrawing)
+            { isDumping = true; }
         }
     }
 }
