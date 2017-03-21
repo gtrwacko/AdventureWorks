@@ -19,13 +19,17 @@ namespace AdventureWorks
         Texture2D mainBox;
         Rectangle mainArea;
 
-        Texture2D grey;
+        Texture2D overlayBackground;
+        Texture2D arkanaLook;
         Rectangle[,] slice9 = new Rectangle[3,3];
+
+        float displayedTextPosition;
         
 
         public GameOverlay(ContentManager contentManager)
         {
-            grey = contentManager.Load<Texture2D>("grey");
+            overlayBackground = contentManager.Load<Texture2D>("brown");
+            arkanaLook = contentManager.Load<Texture2D>("ArkanaLook");
 
             for (int i = 0; i < 3; i++)
             {
@@ -36,59 +40,24 @@ namespace AdventureWorks
             }
         }
 
+        public void Update(float textPosition)
+        {
+            displayedTextPosition = textPosition;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(textBox, textArea, Color.White);
-            //spriteBatch.Draw(mainBox, mainArea, Color.White);
+            //Draw Map Area
+            //spanDraw(spriteBatch, overlayBackground, 16, 8, 8, 49, 23);
+            //spanDraw(spriteBatch, overlayBackground, 16, GameConstants.MapArea);
 
-            //for(int i =0; i < 800; i+=16)
-            //{
-            //    for(int j =0; j < 400; j+=16)
-            //    {
-            //        int a, b;
+            //Draw Text Area
+            spanDraw(spriteBatch, overlayBackground, 16, GameConstants.TextArea);
 
-            //        if (i==0)
-            //        { a = 0; }
-            //        else if(i==784)
-            //        { a = 2; }
-            //        else { a = 1; }
+            //draw scroll bar Area
+            spanDraw(spriteBatch, overlayBackground, 16, GameConstants.ScrollBarArea);
 
-            //        if (j == 0)
-            //        { b = 0; }
-            //        else if (j == 384)
-            //        { b = 2; }
-            //        else { b = 1; }
-
-            //        spriteBatch.Draw(grey, new Rectangle(i, j, 16, 16), slice9[a, b], Color.White);
-            //    }
-            //}
-
-            spanDraw(spriteBatch, grey, 16, 8, 8, 49, 23);
-            spanDraw(spriteBatch, grey, 16, 8, 384, 49, 13);
-
-
-            //for (int i = 0; i < 800; i += 16)
-            //{
-            //    for (int j = 600-176; j <= 600-16; j += 16)
-            //    {
-            //        int a, b;
-
-            //        if (i == 0)
-            //        { a = 0; }
-            //        else if (i == 784)
-            //        { a = 2; }
-            //        else { a = 1; }
-
-            //        if (j == 600-176)
-            //        { b = 0; }
-            //        else if (j == 600-16)
-            //        { b = 2; }
-            //        else { b = 1; }
-
-            //        spriteBatch.Draw(grey, new Rectangle(i, j, 16, 16), slice9[a, b], Color.White);
-            //    }
-            //}
-
+            drawVertScrollBar(spriteBatch,GameConstants.ScrollBarArea);
 
         }
 
@@ -116,5 +85,64 @@ namespace AdventureWorks
                 }
             }
         }
-    }
-}
+
+        public void spanDraw(SpriteBatch spriteBatch, Texture2D texture, int textureSize, Rectangle rectangle)
+        {
+            int a, b;
+
+            for (int i = 0; i < rectangle.Width - textureSize; i += textureSize)
+            {
+                if (i == 0)
+                { a = 0; }
+                else { a = 1; }
+
+                for (int j = 0; j < rectangle.Height - textureSize; j += textureSize)
+                {
+                    if (j == 0)
+                    { b = 0; }
+                    else { b = 1; }
+
+                    spriteBatch.Draw(texture, new Rectangle(i + rectangle.X, j + rectangle.Y, 16, 16), slice9[a, b], Color.White);
+                }
+
+                spriteBatch.Draw(texture, new Rectangle(i + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), slice9[a, 2], Color.White);
+            }
+
+            for (int j = 0; j < rectangle.Height - textureSize; j += textureSize)
+            {
+                if (j == 0)
+                { b = 0; }
+                else { b = 1; }
+
+                spriteBatch.Draw(texture, new Rectangle(rectangle.Width - textureSize + rectangle.X, j + rectangle.Y, 16, 16), slice9[2, b], Color.White);
+            }
+
+            spriteBatch.Draw(texture, new Rectangle(rectangle.Width - textureSize + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), slice9[2,2], Color.White);
+        }
+
+
+        private void drawVertScrollBar(SpriteBatch spriteBatch, Rectangle rectangle)
+        {
+            int centerLine = rectangle.X + rectangle.Width / 2;
+
+            for (int i = 6; i < rectangle.Height - 8; i++)
+            { spriteBatch.Draw(arkanaLook, new Vector2(centerLine - GameConstants.VDecoScrollbarBarEnabled.Width / 2, rectangle.Y + i), GameConstants.VDecoScrollbarBarEnabled, Color.White); }
+
+            Vector2 upArrowPosition = new Vector2(centerLine - GameConstants.VDecoScrollbarUpNormal.Width / 2, rectangle.Y + 4) ;
+            Vector2 dnArrowPOsition = new Vector2(centerLine - GameConstants.VDecoScrollbarDownNormal.Width / 2, rectangle.Y + rectangle.Height - GameConstants.VDecoScrollbarDownNormal.Height - 6);
+            Vector2 thumbPosition = new Vector2(centerLine - GameConstants.VDecoScrollbarBarThumbNormal.Width / 2, displayedTextPosition*(rectangle.Height-GameConstants.VDecoScrollbarUpNormal.Height*2)*.9f + 404);
+
+            //up arrow
+            spriteBatch.Draw(arkanaLook, upArrowPosition, GameConstants.VDecoScrollbarUpNormal, Color.White);
+
+            //down arrow
+            spriteBatch.Draw(arkanaLook, dnArrowPOsition, GameConstants.VDecoScrollbarDownNormal, Color.White);
+
+            //center thing
+            spriteBatch.Draw(arkanaLook, thumbPosition, GameConstants.VDecoScrollbarBarThumbNormal, Color.White);
+        }
+
+
+    } //End of Class
+
+} // End of Namespace

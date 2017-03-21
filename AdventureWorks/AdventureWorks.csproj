@@ -45,6 +45,7 @@
     <Compile Include="GameConstants.cs" />
     <Compile Include="GameOverlay.cs" />
     <Compile Include="GamePlayText.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -18,12 +18,15 @@ namespace AdventureWorks
         SpriteFont font;
         GameOverlay gameOverlay;
         GamePlayText gamePlayText;
+        Map gameMap;
 
         String startingText;
         String parsedText;
 
         KeyboardState kbState;
         KeyboardState lastKBState;
+
+        float displayedTextPosition;
 
 
         public Game1()
@@ -65,6 +68,7 @@ namespace AdventureWorks
 
             gameOverlay = new GameOverlay(Content);
             gamePlayText = new GamePlayText(Content);
+            gameMap = new Map(Content);
             startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
             
 
@@ -107,7 +111,8 @@ namespace AdventureWorks
                 gamePlayText.Dump();
             }
 
-            gamePlayText.Update(gameTime);
+            displayedTextPosition = gamePlayText.Update(gameTime);
+            gameOverlay.Update(displayedTextPosition);
 
             lastKBState = kbState;
             base.Update(gameTime);
@@ -119,14 +124,16 @@ namespace AdventureWorks
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkSlateGray);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
 
+            gameMap.Draw(spriteBatch);
             gameOverlay.Draw(spriteBatch);
             gamePlayText.Draw(spriteBatch);
+            
             
             
             spriteBatch.End();

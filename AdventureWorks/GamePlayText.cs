@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AdventureWorks
 {
-    class GamePlayText
+    public class GamePlayText
     {
         String typedText;
         double typedTextLength;
@@ -24,6 +24,12 @@ namespace AdventureWorks
         List<String> printedText;
         int startingLine;
         Queue<String> textQueue;
+        private float displayedTextPosition;
+
+        public float TextPosition()
+        {
+            return displayedTextPosition;
+        }
 
 
         String parsedText;
@@ -40,7 +46,7 @@ namespace AdventureWorks
             
         }
 
-        public void Update(GameTime gameTime)
+        public float Update(GameTime gameTime)
         {
             //RollOutText(gameTime);
             typedText = "";
@@ -73,7 +79,14 @@ namespace AdventureWorks
 
             if(!isDoneDrawing)
             { RollOutText(gameTime); }
-            
+
+            if (printedText.Count <=8)
+            { displayedTextPosition = 1.0f; } 
+            else if (startingLine == 0)
+            { displayedTextPosition = 0.0f; } else
+            { displayedTextPosition = ((float)startingLine)/(printedText.Count -8); }
+
+            return displayedTextPosition;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -88,6 +101,7 @@ namespace AdventureWorks
 
             }
             spriteBatch.DrawString(codersCrux, display, new Vector2(24, 400), Color.White);
+        
         }
 
         private void parseText(String text)
@@ -97,7 +111,7 @@ namespace AdventureWorks
 
             foreach (String word in wordArray)
             {
-                if (codersCrux.MeasureString(line + word).Length() > 752)
+                if (codersCrux.MeasureString(line + word).Length() > GameConstants.TextArea.Width)
                 {
                     textQueue.Enqueue(line + '\n');
                     line = String.Empty;
