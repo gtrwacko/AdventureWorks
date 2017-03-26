@@ -14,22 +14,14 @@ namespace AdventureWorks
 {
     class GameOverlay
     {
-        Texture2D textBox;
-        Rectangle textArea;
-        Texture2D mainBox;
-        Rectangle mainArea;
+        Rectangle areaRectangle;
+        Texture2D tileTexture;
+        Rectangle[,] slice9 = new Rectangle[3,3];       
 
-        Texture2D overlayBackground;
-        Texture2D arkanaLook;
-        Rectangle[,] slice9 = new Rectangle[3,3];
-
-        float displayedTextPosition;
-        
-
-        public GameOverlay(ContentManager contentManager)
+        public GameOverlay(Texture2D tileTexture, Rectangle areaRectangle)
         {
-            overlayBackground = contentManager.Load<Texture2D>("brown");
-            arkanaLook = contentManager.Load<Texture2D>("ArkanaLook");
+            this.tileTexture = tileTexture;
+            this.areaRectangle = areaRectangle;
 
             for (int i = 0; i < 3; i++)
             {
@@ -40,24 +32,15 @@ namespace AdventureWorks
             }
         }
 
-        public void Update(float textPosition)
+        public void Update()
         {
-            displayedTextPosition = textPosition;
+
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Rectangle areaRectangle)
         {
-            //Draw Map Area
-            //spanDraw(spriteBatch, overlayBackground, 16, 8, 8, 49, 23);
-            //spanDraw(spriteBatch, overlayBackground, 16, GameConstants.MapArea);
-
             //Draw Text Area
-            spanDraw(spriteBatch, overlayBackground, 16, GameConstants.TextArea);
-
-            //draw scroll bar Area
-            spanDraw(spriteBatch, overlayBackground, 16, GameConstants.ScrollBarArea);
-
-            drawVertScrollBar(spriteBatch,GameConstants.ScrollBarArea);
+            spanDraw(spriteBatch, tileTexture, tileTexture.Width/3, areaRectangle);
 
         }
 
@@ -119,29 +102,6 @@ namespace AdventureWorks
 
             spriteBatch.Draw(texture, new Rectangle(rectangle.Width - textureSize + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), slice9[2,2], Color.White);
         }
-
-
-        private void drawVertScrollBar(SpriteBatch spriteBatch, Rectangle rectangle)
-        {
-            int centerLine = rectangle.X + rectangle.Width / 2;
-
-            for (int i = 6; i < rectangle.Height - 8; i++)
-            { spriteBatch.Draw(arkanaLook, new Vector2(centerLine - GameConstants.VDecoScrollbarBarEnabled.Width / 2, rectangle.Y + i), GameConstants.VDecoScrollbarBarEnabled, Color.White); }
-
-            Vector2 upArrowPosition = new Vector2(centerLine - GameConstants.VDecoScrollbarUpNormal.Width / 2, rectangle.Y + 4) ;
-            Vector2 dnArrowPOsition = new Vector2(centerLine - GameConstants.VDecoScrollbarDownNormal.Width / 2, rectangle.Y + rectangle.Height - GameConstants.VDecoScrollbarDownNormal.Height - 6);
-            Vector2 thumbPosition = new Vector2(centerLine - GameConstants.VDecoScrollbarBarThumbNormal.Width / 2, displayedTextPosition*(rectangle.Height-GameConstants.VDecoScrollbarUpNormal.Height*2)*.9f + 404);
-
-            //up arrow
-            spriteBatch.Draw(arkanaLook, upArrowPosition, GameConstants.VDecoScrollbarUpNormal, Color.White);
-
-            //down arrow
-            spriteBatch.Draw(arkanaLook, dnArrowPOsition, GameConstants.VDecoScrollbarDownNormal, Color.White);
-
-            //center thing
-            spriteBatch.Draw(arkanaLook, thumbPosition, GameConstants.VDecoScrollbarBarThumbNormal, Color.White);
-        }
-
 
     } //End of Class
 

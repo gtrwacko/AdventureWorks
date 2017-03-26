@@ -45,10 +45,12 @@
     <Compile Include="GameConstants.cs" />
     <Compile Include="GameOverlay.cs" />
     <Compile Include="GamePlayText.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextBox.cs" />
+    <Compile Include="VerticalScrollBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">

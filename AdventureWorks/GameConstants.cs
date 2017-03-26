@@ -20,6 +20,9 @@ namespace AdventureWorks
         public static readonly Rectangle TextArea = new Rectangle(8,384,748,208);
         public static readonly Rectangle ScrollBarArea = new Rectangle(760,384,32,208);
 
+        public static readonly Rectangle TextAreaIntro = new Rectangle(8, 8, 748, 582);
+        public static readonly Rectangle ScrollBarAreaIntro = new Rectangle(760, 8, 32, 582);
+
         public static readonly Rectangle VDecoScrollbarUpNormal = new Rectangle(19, 354, 14, 15);
         public static readonly Rectangle VDecoScrollbarUpHover = new Rectangle(19, 370, 14, 15);
         public static readonly Rectangle VDecoScrollbarUpPushed = new Rectangle(19, 386, 14, 15);

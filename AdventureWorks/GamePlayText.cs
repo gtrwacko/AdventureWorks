@@ -89,7 +89,7 @@ namespace AdventureWorks
             return displayedTextPosition;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Rectangle rectangle)
         {
             String display = String.Empty;
             for(int i = 0; i < 8; i++)

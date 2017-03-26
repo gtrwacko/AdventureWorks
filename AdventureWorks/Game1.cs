@@ -15,21 +15,16 @@ namespace AdventureWorks
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        enum GameState {Map, Intro };
-        GameState currentState;
+        GameState gameState;
 
         SpriteFont font;
-        GameOverlay gameOverlay;
-        GamePlayText gamePlayText;
         Map gameMap;
+        TextBox gameTextBox;
 
         String startingText;
-        String parsedText;
 
         KeyboardState kbState;
         KeyboardState lastKBState;
-
-        float displayedTextPosition;
 
 
         public Game1()
@@ -38,6 +33,7 @@ namespace AdventureWorks
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = GameConstants.WindowWidth;
             graphics.PreferredBackBufferHeight = GameConstants.WindowHight;
+            gameState = new GameState();
         }
 
         /// <summary>
@@ -68,10 +64,8 @@ namespace AdventureWorks
             // load sprite font
             font = Content.Load<SpriteFont>("Arial20");
             
-
-            gameOverlay = new GameOverlay(Content);
-            gamePlayText = new GamePlayText(Content);
             gameMap = new Map(Content);
+            gameTextBox = new TextBox(Content,gameState);
             startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
             
 
@@ -102,24 +96,24 @@ namespace AdventureWorks
 
             if (kbState.IsKeyDown(Keys.F2))
             {
-                currentState = GameState.Intro;
+                gameState.SetState(GameState.State.intro);
             }
 
             if (kbState.IsKeyDown(Keys.F3))
             {
-                currentState = GameState.Map;
+                gameState.SetState(GameState.State.map);
             }
 
             if (kbState.IsKeyDown(Keys.F1) && lastKBState.IsKeyUp(Keys.F1))
             {
-                gamePlayText.AddText(startingText);
+                gameTextBox.AddText(startingText);
             }
             if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter))
             {
-                gamePlayText.Dump();
+                gameTextBox.Dump();
             }
 
-            if(currentState == GameState.Map)
+            if(gameState.GetState() == GameState.State.map)
             {
                 if (kbState.IsKeyDown(Keys.W) && lastKBState.IsKeyUp(Keys.W))
                 {
@@ -139,9 +133,7 @@ namespace AdventureWorks
                 }
             }
 
-
-            displayedTextPosition = gamePlayText.Update(gameTime);
-            gameOverlay.Update(displayedTextPosition);
+            gameTextBox.Update(gameTime, gameState);
 
             lastKBState = kbState;
             base.Update(gameTime);
@@ -160,16 +152,15 @@ namespace AdventureWorks
             spriteBatch.Begin();
 
 
-            if(currentState == GameState.Map)
+            if(gameState.GetState() == GameState.State.map)
             {
                 gameMap.Draw(spriteBatch);
-                gameOverlay.Draw(spriteBatch);
-                gamePlayText.Draw(spriteBatch);
+                
             }
-            
-            
-            
-            
+
+            gameTextBox.Draw(spriteBatch);
+
+
             spriteBatch.End();
 
             base.Draw(gameTime);
