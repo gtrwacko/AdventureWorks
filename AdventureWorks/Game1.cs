@@ -15,6 +15,9 @@ namespace AdventureWorks
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        enum GameState {Map, Intro };
+        GameState currentState;
+
         SpriteFont font;
         GameOverlay gameOverlay;
         GamePlayText gamePlayText;
@@ -74,11 +77,6 @@ namespace AdventureWorks
 
         }
 
-        void consoleStart()
-        {
-            
-        }
-
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// game-specific content.
@@ -102,6 +100,16 @@ namespace AdventureWorks
 
             kbState = Keyboard.GetState();
 
+            if (kbState.IsKeyDown(Keys.F2))
+            {
+                currentState = GameState.Intro;
+            }
+
+            if (kbState.IsKeyDown(Keys.F3))
+            {
+                currentState = GameState.Map;
+            }
+
             if (kbState.IsKeyDown(Keys.F1) && lastKBState.IsKeyUp(Keys.F1))
             {
                 gamePlayText.AddText(startingText);
@@ -110,6 +118,27 @@ namespace AdventureWorks
             {
                 gamePlayText.Dump();
             }
+
+            if(currentState == GameState.Map)
+            {
+                if (kbState.IsKeyDown(Keys.W) && lastKBState.IsKeyUp(Keys.W))
+                {
+                    gameMap.Update(0, -1);
+                }
+                if (kbState.IsKeyDown(Keys.S) && lastKBState.IsKeyUp(Keys.S))
+                {
+                    gameMap.Update(0, 1);
+                }
+                if (kbState.IsKeyDown(Keys.A) && lastKBState.IsKeyUp(Keys.A))
+                {
+                    gameMap.Update(-1, 0);
+                }
+                if (kbState.IsKeyDown(Keys.D) && lastKBState.IsKeyUp(Keys.D))
+                {
+                    gameMap.Update(1, 0);
+                }
+            }
+
 
             displayedTextPosition = gamePlayText.Update(gameTime);
             gameOverlay.Update(displayedTextPosition);
@@ -130,9 +159,14 @@ namespace AdventureWorks
 
             spriteBatch.Begin();
 
-            gameMap.Draw(spriteBatch);
-            gameOverlay.Draw(spriteBatch);
-            gamePlayText.Draw(spriteBatch);
+
+            if(currentState == GameState.Map)
+            {
+                gameMap.Draw(spriteBatch);
+                gameOverlay.Draw(spriteBatch);
+                gamePlayText.Draw(spriteBatch);
+            }
+            
             
             
             
