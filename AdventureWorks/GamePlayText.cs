@@ -46,8 +46,10 @@ namespace AdventureWorks
             
         }
 
-        public float Update(GameTime gameTime)
+        public float Update(GameTime gameTime, Rectangle rectangle)
         {
+
+            int textLines = rectangle.Height / 22;
             //RollOutText(gameTime);
             typedText = "";
             KeyboardState kbState = Keyboard.GetState();
@@ -61,9 +63,9 @@ namespace AdventureWorks
                 startingLine--;
             }
 
-            if (startingLine > printedText.Count-8)
+            if (startingLine > printedText.Count-textLines)
             {
-                startingLine = printedText.Count - 8;
+                startingLine = printedText.Count - textLines;
             }
             if (startingLine < 0)
             {
@@ -78,13 +80,13 @@ namespace AdventureWorks
             }
 
             if(!isDoneDrawing)
-            { RollOutText(gameTime); }
+            { RollOutText(gameTime,textLines); }
 
-            if (printedText.Count <=8)
+            if (printedText.Count <=textLines)
             { displayedTextPosition = 1.0f; } 
             else if (startingLine == 0)
             { displayedTextPosition = 0.0f; } else
-            { displayedTextPosition = ((float)startingLine)/(printedText.Count -8); }
+            { displayedTextPosition = ((float)startingLine)/(printedText.Count -textLines); }
 
             return displayedTextPosition;
         }
@@ -92,7 +94,8 @@ namespace AdventureWorks
         public void Draw(SpriteBatch spriteBatch, Rectangle rectangle)
         {
             String display = String.Empty;
-            for(int i = 0; i < 8; i++)
+            int textLines = rectangle.Height / 22;
+            for(int i = 0; i < textLines; i++)
             {
                 if(i+startingLine < printedText.Count)
                 {
@@ -100,8 +103,9 @@ namespace AdventureWorks
                 }
 
             }
-            spriteBatch.DrawString(codersCrux, display, new Vector2(24, 400), Color.White);
-        
+
+            spriteBatch.DrawString(codersCrux, display, new Vector2(rectangle.X+8, rectangle.Y+8), Color.Green);
+
         }
 
         private void parseText(String text)
@@ -123,7 +127,7 @@ namespace AdventureWorks
             textQueue.Enqueue(line + '\n');
         }
 
-        private void RollOutText(GameTime gameTime)
+        private void RollOutText(GameTime gameTime, int textLines)
         {
             if (isDumping && (!isDoneDrawing || textQueue.Count > 0))
             {
@@ -138,7 +142,7 @@ namespace AdventureWorks
                 }
                 isDumping = false;
                 isDoneDrawing = true;
-                startingLine = printedText.Count - 8;
+                startingLine = printedText.Count - textLines;
                 if (startingLine < 0)
                 { startingLine = 0; }
             }
@@ -146,7 +150,7 @@ namespace AdventureWorks
 
             if (!isDoneDrawing)
             {
-                startingLine = printedText.Count - 8;
+                startingLine = printedText.Count - textLines;
                 if (startingLine<0)
                 { startingLine = 0; }
 

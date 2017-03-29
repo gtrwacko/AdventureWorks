@@ -20,11 +20,17 @@ namespace AdventureWorks
         SpriteFont font;
         Map gameMap;
         TextBox gameTextBox;
+        MainCharacter mainCharacter;
 
         String startingText;
 
         KeyboardState kbState;
         KeyboardState lastKBState;
+
+        //keylockswitch
+        bool keyLock;
+        bool keyLatch;
+        int keyLockTimer;
 
 
         public Game1()
@@ -34,6 +40,10 @@ namespace AdventureWorks
             graphics.PreferredBackBufferWidth = GameConstants.WindowWidth;
             graphics.PreferredBackBufferHeight = GameConstants.WindowHight;
             gameState = new GameState();
+            //keylockswitch
+            keyLock = true;
+            keyLatch = false;
+            keyLockTimer = 0;
         }
 
         /// <summary>
@@ -67,7 +77,7 @@ namespace AdventureWorks
             gameMap = new Map(Content);
             gameTextBox = new TextBox(Content,gameState);
             startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
-            
+            mainCharacter = new MainCharacter(Content);
 
         }
 
@@ -115,24 +125,54 @@ namespace AdventureWorks
 
             if(gameState.GetState() == GameState.State.map)
             {
-                if (kbState.IsKeyDown(Keys.W) && lastKBState.IsKeyUp(Keys.W))
+                if (kbState.IsKeyDown(Keys.W) && (lastKBState.IsKeyUp(Keys.W) || keyLock))
                 {
                     gameMap.Update(0, -1);
+                    mainCharacter.Update(MainCharacter.Direction.Up);
+                    keyLock = false;
                 }
-                if (kbState.IsKeyDown(Keys.S) && lastKBState.IsKeyUp(Keys.S))
+                if (kbState.IsKeyDown(Keys.S) && (lastKBState.IsKeyUp(Keys.S) || keyLock))
                 {
                     gameMap.Update(0, 1);
+                    mainCharacter.Update(MainCharacter.Direction.Down);
+                    keyLock = false;
                 }
-                if (kbState.IsKeyDown(Keys.A) && lastKBState.IsKeyUp(Keys.A))
+                if (kbState.IsKeyDown(Keys.A) && (lastKBState.IsKeyUp(Keys.A) || keyLock))
                 {
                     gameMap.Update(-1, 0);
+                    mainCharacter.Update(MainCharacter.Direction.Left);
+                    keyLock = false;
                 }
-                if (kbState.IsKeyDown(Keys.D) && lastKBState.IsKeyUp(Keys.D))
+                if (kbState.IsKeyDown(Keys.D) && (lastKBState.IsKeyUp(Keys.D) || keyLock))
                 {
                     gameMap.Update(1, 0);
+                    mainCharacter.Update(MainCharacter.Direction.Right);
+                    keyLock = false;
                 }
             }
 
+            if(!keyLock)
+            {
+                if (!keyLatch && keyLockTimer > 350)
+                {
+                    keyLock = true;
+                    keyLockTimer = 0;
+                    keyLatch = true;
+                }
+                if(keyLatch && keyLockTimer > 75)
+                {
+                    keyLock = true;
+                    keyLockTimer = 0;
+                }
+            }
+
+            if(kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.S) && kbState.IsKeyUp(Keys.D))
+            {
+                keyLatch = false;
+                keyLock = false;
+            }
+
+            keyLockTimer += gameTime.ElapsedGameTime.Milliseconds;
             gameTextBox.Update(gameTime, gameState);
 
             lastKBState = kbState;
@@ -159,6 +199,7 @@ namespace AdventureWorks
             }
 
             gameTextBox.Draw(spriteBatch);
+            mainCharacter.Draw(spriteBatch);
 
 
             spriteBatch.End();
