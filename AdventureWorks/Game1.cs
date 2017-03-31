@@ -20,7 +20,7 @@ namespace AdventureWorks
         SpriteFont font;
         Map gameMap;
         TextBox gameTextBox;
-        MainCharacter mainCharacter;
+        
 
         String startingText;
 
@@ -77,7 +77,7 @@ namespace AdventureWorks
             gameMap = new Map(Content);
             gameTextBox = new TextBox(Content,gameState);
             startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
-            mainCharacter = new MainCharacter(Content);
+            
 
         }
 
@@ -127,39 +127,55 @@ namespace AdventureWorks
             {
                 if (kbState.IsKeyDown(Keys.W) && (lastKBState.IsKeyUp(Keys.W) || keyLock))
                 {
-                    gameMap.Update(0, -1);
-                    mainCharacter.Update(MainCharacter.Direction.Up);
+                    gameMap.MoveCharacter(MainCharacter.Direction.Up);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.S) && (lastKBState.IsKeyUp(Keys.S) || keyLock))
                 {
-                    gameMap.Update(0, 1);
-                    mainCharacter.Update(MainCharacter.Direction.Down);
+                    gameMap.MoveCharacter(MainCharacter.Direction.Down);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.A) && (lastKBState.IsKeyUp(Keys.A) || keyLock))
                 {
-                    gameMap.Update(-1, 0);
-                    mainCharacter.Update(MainCharacter.Direction.Left);
+                    gameMap.MoveCharacter(MainCharacter.Direction.Left);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.D) && (lastKBState.IsKeyUp(Keys.D) || keyLock))
                 {
+                    gameMap.MoveCharacter(MainCharacter.Direction.Right);
+                    keyLock = false;
+                }
+                if (kbState.IsKeyDown(Keys.Up) && (lastKBState.IsKeyUp(Keys.Up) || keyLock))
+                {
+                    gameMap.Update(0, -1);
+                    keyLock = false;
+                }
+                if (kbState.IsKeyDown(Keys.Down) && (lastKBState.IsKeyUp(Keys.Down) || keyLock))
+                {
+                    gameMap.Update(0, 1);
+                    keyLock = false;
+                }
+                if (kbState.IsKeyDown(Keys.Left) && (lastKBState.IsKeyUp(Keys.Left) || keyLock))
+                {
+                    gameMap.Update(-1, 0);
+                    keyLock = false;
+                }
+                if (kbState.IsKeyDown(Keys.Right) && (lastKBState.IsKeyUp(Keys.Right) || keyLock))
+                {
                     gameMap.Update(1, 0);
-                    mainCharacter.Update(MainCharacter.Direction.Right);
                     keyLock = false;
                 }
             }
 
             if(!keyLock)
             {
-                if (!keyLatch && keyLockTimer > 350)
+                if (!keyLatch && keyLockTimer > 1000)
                 {
                     keyLock = true;
                     keyLockTimer = 0;
                     keyLatch = true;
                 }
-                if(keyLatch && keyLockTimer > 75)
+                if(keyLatch && keyLockTimer > 150)
                 {
                     keyLock = true;
                     keyLockTimer = 0;
@@ -199,7 +215,7 @@ namespace AdventureWorks
             }
 
             gameTextBox.Draw(spriteBatch);
-            mainCharacter.Draw(spriteBatch);
+            
 
 
             spriteBatch.End();

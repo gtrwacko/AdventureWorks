@@ -54,11 +54,11 @@ namespace AdventureWorks
             typedText = "";
             KeyboardState kbState = Keyboard.GetState();
 
-            if(kbState.IsKeyDown(Keys.Down))
+            if(kbState.IsKeyDown(Keys.PageDown))
             {
                 startingLine++;
             }
-            if (kbState.IsKeyDown(Keys.Up))
+            if (kbState.IsKeyDown(Keys.PageUp))
             {
                 startingLine--;
             }
