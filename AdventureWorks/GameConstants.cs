@@ -17,6 +17,12 @@ namespace AdventureWorks
         public const int WindowHight = 600;
 
         public static readonly Rectangle MapArea = new Rectangle(8, 8, 784, 368);
+
+        public int MapWidth
+        {
+            get { return MapArea.Width; }
+        }
+
         public static readonly Rectangle TextArea = new Rectangle(8,384,748,208);
         public static readonly Rectangle ScrollBarArea = new Rectangle(760,384,32,208);
 

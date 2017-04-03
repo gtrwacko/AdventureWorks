@@ -18,7 +18,7 @@ namespace AdventureWorks
         GameState gameState;
 
         SpriteFont font;
-        Map gameMap;
+        MapViewer mapViewer;
         TextBox gameTextBox;
         
 
@@ -74,7 +74,7 @@ namespace AdventureWorks
             // load sprite font
             font = Content.Load<SpriteFont>("Arial20");
             
-            gameMap = new Map(Content);
+            mapViewer = new MapViewer(Content);
             gameTextBox = new TextBox(Content,gameState);
             startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
             
@@ -127,42 +127,42 @@ namespace AdventureWorks
             {
                 if (kbState.IsKeyDown(Keys.W) && (lastKBState.IsKeyUp(Keys.W) || keyLock))
                 {
-                    gameMap.MoveCharacter(MainCharacter.Direction.Up);
+                    mapViewer.MoveCharacter(MainCharacter.Direction.Up);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.S) && (lastKBState.IsKeyUp(Keys.S) || keyLock))
                 {
-                    gameMap.MoveCharacter(MainCharacter.Direction.Down);
+                    mapViewer.MoveCharacter(MainCharacter.Direction.Down);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.A) && (lastKBState.IsKeyUp(Keys.A) || keyLock))
                 {
-                    gameMap.MoveCharacter(MainCharacter.Direction.Left);
+                    mapViewer.MoveCharacter(MainCharacter.Direction.Left);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.D) && (lastKBState.IsKeyUp(Keys.D) || keyLock))
                 {
-                    gameMap.MoveCharacter(MainCharacter.Direction.Right);
+                    mapViewer.MoveCharacter(MainCharacter.Direction.Right);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Up) && (lastKBState.IsKeyUp(Keys.Up) || keyLock))
                 {
-                    gameMap.Update(0, -1);
+                    mapViewer.Update(0, -1);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Down) && (lastKBState.IsKeyUp(Keys.Down) || keyLock))
                 {
-                    gameMap.Update(0, 1);
+                    mapViewer.Update(0, 1);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Left) && (lastKBState.IsKeyUp(Keys.Left) || keyLock))
                 {
-                    gameMap.Update(-1, 0);
+                    mapViewer.Update(-1, 0);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Right) && (lastKBState.IsKeyUp(Keys.Right) || keyLock))
                 {
-                    gameMap.Update(1, 0);
+                    mapViewer.Update(1, 0);
                     keyLock = false;
                 }
             }
@@ -188,7 +188,12 @@ namespace AdventureWorks
                 keyLock = false;
             }
 
-            keyLockTimer += gameTime.ElapsedGameTime.Milliseconds;
+            if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter) )
+            {
+                mapViewer.Action();
+            }
+
+                keyLockTimer += gameTime.ElapsedGameTime.Milliseconds;
             gameTextBox.Update(gameTime, gameState);
 
             lastKBState = kbState;
@@ -210,7 +215,7 @@ namespace AdventureWorks
 
             if(gameState.GetState() == GameState.State.map)
             {
-                gameMap.Draw(spriteBatch);
+                mapViewer.Draw(spriteBatch);
                 
             }
 
