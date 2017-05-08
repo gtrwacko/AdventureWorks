@@ -16,7 +16,8 @@ namespace AdventureWorks
     {
         Rectangle areaRectangle;
         Texture2D tileTexture;
-        Rectangle[,] slice9 = new Rectangle[3,3];       
+        Rectangle[,] slice9 = new Rectangle[3,3];
+        float gameOverlayDepth = .15f;       
 
         public GameOverlay(Texture2D tileTexture, Rectangle areaRectangle)
         {
@@ -64,7 +65,7 @@ namespace AdventureWorks
                     { b = 2; }
                     else { b = 1; }
 
-                    spriteBatch.Draw(texture, new Rectangle(i, j, 16, 16), slice9[a, b], Color.White);
+                    spriteBatch.Draw(texture, destinationRectangle: new Rectangle(i, j, 16, 16), sourceRectangle: slice9[a, b], color: Color.White, layerDepth: gameOverlayDepth);
                 }
             }
         }
@@ -85,10 +86,10 @@ namespace AdventureWorks
                     { b = 0; }
                     else { b = 1; }
 
-                    spriteBatch.Draw(texture, new Rectangle(i + rectangle.X, j + rectangle.Y, 16, 16), slice9[a, b], Color.White);
+                    spriteBatch.Draw(texture, destinationRectangle: new Rectangle(i + rectangle.X, j + rectangle.Y, 16, 16), sourceRectangle: slice9[a, b], color: Color.White, layerDepth: gameOverlayDepth);
                 }
 
-                spriteBatch.Draw(texture, new Rectangle(i + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), slice9[a, 2], Color.White);
+                spriteBatch.Draw(texture, destinationRectangle: new Rectangle(i + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), sourceRectangle: slice9[a, 2], color: Color.White, layerDepth: gameOverlayDepth );
             }
 
             for (int j = 0; j < rectangle.Height - textureSize; j += textureSize)
@@ -97,10 +98,10 @@ namespace AdventureWorks
                 { b = 0; }
                 else { b = 1; }
 
-                spriteBatch.Draw(texture, new Rectangle(rectangle.Width - textureSize + rectangle.X, j + rectangle.Y, 16, 16), slice9[2, b], Color.White);
+                spriteBatch.Draw(texture, destinationRectangle: new Rectangle(rectangle.Width - textureSize + rectangle.X, j + rectangle.Y, 16, 16), sourceRectangle: slice9[2, b], color: Color.White, layerDepth: gameOverlayDepth);
             }
 
-            spriteBatch.Draw(texture, new Rectangle(rectangle.Width - textureSize + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), slice9[2,2], Color.White);
+            spriteBatch.Draw(texture, destinationRectangle: new Rectangle(rectangle.Width - textureSize + rectangle.X, rectangle.Height - textureSize + rectangle.Y, 16, 16), sourceRectangle: slice9[2,2], color: Color.White, layerDepth: gameOverlayDepth);
         }
 
     } //End of Class

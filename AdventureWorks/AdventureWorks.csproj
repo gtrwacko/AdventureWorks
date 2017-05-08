@@ -45,6 +45,8 @@
     <Compile Include="DoorTile.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameConstants.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="GameObjectList.cs" />
     <Compile Include="GameOverlay.cs" />
     <Compile Include="GamePlayText.cs" />
     <Compile Include="GameState.cs" />

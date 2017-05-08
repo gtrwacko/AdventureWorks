@@ -16,6 +16,7 @@ namespace AdventureWorks
     {
         String typedText;
         double typedTextLength;
+        int defaultDelay;
         int delayInMilliseconds;
         bool isDoneDrawing;
         bool isDumping;
@@ -36,7 +37,8 @@ namespace AdventureWorks
 
         public GamePlayText(ContentManager contentManager)
         {
-            delayInMilliseconds = 75;
+            defaultDelay = 75;
+            delayInMilliseconds = defaultDelay;
             isDoneDrawing = true;
 
             codersCrux = contentManager.Load<SpriteFont>("CodersCrux28");
@@ -104,7 +106,7 @@ namespace AdventureWorks
 
             }
 
-            spriteBatch.DrawString(codersCrux, display, new Vector2(rectangle.X+8, rectangle.Y+8), Color.Green);
+            spriteBatch.DrawString(codersCrux, display, new Vector2(rectangle.X+8, rectangle.Y+8), Color.Black);
 
         }
 
@@ -183,7 +185,14 @@ namespace AdventureWorks
 
         public void AddText(String text)
         {
+            delayInMilliseconds = defaultDelay;
             parseText(text);
+        }
+
+        public void AddText(String text, int _delayInMiliseconds)
+        {
+            parseText(text);
+            delayInMilliseconds = _delayInMiliseconds;
         }
 
         public void Dump()

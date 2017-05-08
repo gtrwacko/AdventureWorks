@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace AdventureWorks
 {
@@ -18,9 +19,11 @@ namespace AdventureWorks
         GameState gameState;
 
         SpriteFont font;
-        MapViewer mapViewer;
         TextBox gameTextBox;
-        
+        MainCharacter mainCharacter;
+
+        TileMap currentMap;
+        SpriteFont arial6;
 
         String startingText;
 
@@ -31,6 +34,11 @@ namespace AdventureWorks
         bool keyLock;
         bool keyLatch;
         int keyLockTimer;
+
+        //game text handling
+        public static List<string> newGameText;
+        public static int gameTextDelay;
+        int defaultGameTextDelay;
 
 
         public Game1()
@@ -44,6 +52,11 @@ namespace AdventureWorks
             keyLock = true;
             keyLatch = false;
             keyLockTimer = 0;
+
+            newGameText = new List<string>();
+            defaultGameTextDelay = 75;
+            gameTextDelay = defaultGameTextDelay;
+
         }
 
         /// <summary>
@@ -74,10 +87,13 @@ namespace AdventureWorks
             // load sprite font
             font = Content.Load<SpriteFont>("Arial20");
             
-            mapViewer = new MapViewer(Content);
             gameTextBox = new TextBox(Content,gameState);
             startingText = "Never does a star grace this land with a poets light of twinkling mysteries, nor does the sun send to here its rays of warmth and life. This is the Underdark, the secret world beneath the bustling surface of the Forgotten Realms, whose sky is a ceiling of heartless stone and whose walls show the gray blandness of death in the torchlight of the foolish surface-dwellers that stumble here. This is not their world, not the world of light. Most who come here uninvited do not return.";
-            
+            mainCharacter = new MainCharacter(Content);
+
+            currentMap = MapBuilder.BuildBaseMap(Content);
+            arial6 = Content.Load<SpriteFont>("arial6");
+
 
         }
 
@@ -127,42 +143,42 @@ namespace AdventureWorks
             {
                 if (kbState.IsKeyDown(Keys.W) && (lastKBState.IsKeyUp(Keys.W) || keyLock))
                 {
-                    mapViewer.MoveCharacter(MainCharacter.Direction.Up);
+                    MapViewer.MoveCharacter(MainCharacter.Direction.North,mainCharacter, currentMap);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.S) && (lastKBState.IsKeyUp(Keys.S) || keyLock))
                 {
-                    mapViewer.MoveCharacter(MainCharacter.Direction.Down);
+                    MapViewer.MoveCharacter(MainCharacter.Direction.South, mainCharacter, currentMap);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.A) && (lastKBState.IsKeyUp(Keys.A) || keyLock))
                 {
-                    mapViewer.MoveCharacter(MainCharacter.Direction.Left);
+                    MapViewer.MoveCharacter(MainCharacter.Direction.West, mainCharacter, currentMap);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.D) && (lastKBState.IsKeyUp(Keys.D) || keyLock))
                 {
-                    mapViewer.MoveCharacter(MainCharacter.Direction.Right);
+                    MapViewer.MoveCharacter(MainCharacter.Direction.East, mainCharacter, currentMap);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Up) && (lastKBState.IsKeyUp(Keys.Up) || keyLock))
                 {
-                    mapViewer.Update(0, -1);
+                    MapViewer.Update(0, -1);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Down) && (lastKBState.IsKeyUp(Keys.Down) || keyLock))
                 {
-                    mapViewer.Update(0, 1);
+                    MapViewer.Update(0, 1);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Left) && (lastKBState.IsKeyUp(Keys.Left) || keyLock))
                 {
-                    mapViewer.Update(-1, 0);
+                    MapViewer.Update(-1, 0);
                     keyLock = false;
                 }
                 if (kbState.IsKeyDown(Keys.Right) && (lastKBState.IsKeyUp(Keys.Right) || keyLock))
                 {
-                    mapViewer.Update(1, 0);
+                    MapViewer.Update(1, 0);
                     keyLock = false;
                 }
             }
@@ -190,10 +206,22 @@ namespace AdventureWorks
 
             if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter) )
             {
-                mapViewer.Action();
+                MapViewer.Action(mainCharacter, currentMap);
             }
 
                 keyLockTimer += gameTime.ElapsedGameTime.Milliseconds;
+
+            if(newGameText.Count > 0)
+            {
+                foreach (String text in newGameText)
+                {
+                    gameTextBox.AddText(text, gameTextDelay);
+                }
+                newGameText.Clear(); 
+            }
+            
+            
+
             gameTextBox.Update(gameTime, gameState);
 
             lastKBState = kbState;
@@ -210,12 +238,12 @@ namespace AdventureWorks
 
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront);
 
 
             if(gameState.GetState() == GameState.State.map)
             {
-                mapViewer.Draw(spriteBatch);
+                MapViewer.Draw(spriteBatch, mainCharacter, currentMap, arial6);
                 
             }
 
@@ -226,6 +254,16 @@ namespace AdventureWorks
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void AddText(string text)
+        {
+            gameTextBox.AddText(text);
+        }
+
+        public void AddText(string text, int delay)
+        {
+            gameTextBox.AddText(text,delay);
         }
 
     }
