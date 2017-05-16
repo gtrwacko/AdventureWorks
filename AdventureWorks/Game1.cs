@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Threading;
 using System.Collections.Generic;
 
 namespace AdventureWorks
@@ -17,6 +16,7 @@ namespace AdventureWorks
         SpriteBatch spriteBatch;
 
         GameState gameState;
+		bool waitingForResponse;
 
         SpriteFont font;
         TextBox gameTextBox;
@@ -40,14 +40,19 @@ namespace AdventureWorks
         public static int gameTextDelay;
         int defaultGameTextDelay;
 
+		//Action Handling
+		List<Actions> ActionList;
 
-        public Game1()
+
+
+		public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = GameConstants.WindowWidth;
             graphics.PreferredBackBufferHeight = GameConstants.WindowHight;
             gameState = new GameState();
+			waitingForResponse = false;
             //keylockswitch
             keyLock = true;
             keyLatch = false;
@@ -120,67 +125,18 @@ namespace AdventureWorks
 
             kbState = Keyboard.GetState();
 
-            if (kbState.IsKeyDown(Keys.F2))
-            {
-                gameState.SetState(GameState.State.intro);
-            }
-
-            if (kbState.IsKeyDown(Keys.F3))
-            {
-                gameState.SetState(GameState.State.map);
-            }
-
-            if (kbState.IsKeyDown(Keys.F1) && lastKBState.IsKeyUp(Keys.F1))
-            {
-                gameTextBox.AddText(startingText);
-            }
-            if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter))
-            {
-                gameTextBox.Dump();
-            }
+			GameStateIO();
 
             if(gameState.GetState() == GameState.State.map)
             {
-                if (kbState.IsKeyDown(Keys.W) && (lastKBState.IsKeyUp(Keys.W) || keyLock))
-                {
-                    MapViewer.MoveCharacter(MainCharacter.Direction.North,mainCharacter, currentMap);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.S) && (lastKBState.IsKeyUp(Keys.S) || keyLock))
-                {
-                    MapViewer.MoveCharacter(MainCharacter.Direction.South, mainCharacter, currentMap);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.A) && (lastKBState.IsKeyUp(Keys.A) || keyLock))
-                {
-                    MapViewer.MoveCharacter(MainCharacter.Direction.West, mainCharacter, currentMap);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.D) && (lastKBState.IsKeyUp(Keys.D) || keyLock))
-                {
-                    MapViewer.MoveCharacter(MainCharacter.Direction.East, mainCharacter, currentMap);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.Up) && (lastKBState.IsKeyUp(Keys.Up) || keyLock))
-                {
-                    MapViewer.Update(0, -1);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.Down) && (lastKBState.IsKeyUp(Keys.Down) || keyLock))
-                {
-                    MapViewer.Update(0, 1);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.Left) && (lastKBState.IsKeyUp(Keys.Left) || keyLock))
-                {
-                    MapViewer.Update(-1, 0);
-                    keyLock = false;
-                }
-                if (kbState.IsKeyDown(Keys.Right) && (lastKBState.IsKeyUp(Keys.Right) || keyLock))
-                {
-                    MapViewer.Update(1, 0);
-                    keyLock = false;
-                }
+				if(waitingForResponse)
+				{
+					ResponseIO();
+				} else
+				{
+					MapStateIO();
+				}
+				
             }
 
             if(!keyLock)
@@ -202,11 +158,6 @@ namespace AdventureWorks
             {
                 keyLatch = false;
                 keyLock = false;
-            }
-
-            if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter) )
-            {
-                MapViewer.Action(mainCharacter, currentMap);
             }
 
                 keyLockTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -266,5 +217,122 @@ namespace AdventureWorks
             gameTextBox.AddText(text,delay);
         }
 
+		public void GameStateIO()
+		{
+			if (kbState.IsKeyDown(Keys.F2))
+			{
+				gameState.SetState(GameState.State.intro);
+			}
+
+			if (kbState.IsKeyDown(Keys.F3))
+			{
+				gameState.SetState(GameState.State.map);
+			}
+
+			if (kbState.IsKeyDown(Keys.F1) && lastKBState.IsKeyUp(Keys.F1))
+			{
+				gameTextBox.AddText(startingText);
+			}
+			if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter))
+			{
+				gameTextBox.Dump();
+			}
+		}
+
+		public void MapStateIO()
+		{
+			if (kbState.IsKeyDown(Keys.W) && (lastKBState.IsKeyUp(Keys.W) || keyLock))
+			{
+				MapViewer.MoveCharacter(MainCharacter.Direction.North, mainCharacter, currentMap);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.S) && (lastKBState.IsKeyUp(Keys.S) || keyLock))
+			{
+				MapViewer.MoveCharacter(MainCharacter.Direction.South, mainCharacter, currentMap);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.A) && (lastKBState.IsKeyUp(Keys.A) || keyLock))
+			{
+				MapViewer.MoveCharacter(MainCharacter.Direction.West, mainCharacter, currentMap);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.D) && (lastKBState.IsKeyUp(Keys.D) || keyLock))
+			{
+				MapViewer.MoveCharacter(MainCharacter.Direction.East, mainCharacter, currentMap);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.Up) && (lastKBState.IsKeyUp(Keys.Up) || keyLock))
+			{
+				MapViewer.Update(0, -1);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.Down) && (lastKBState.IsKeyUp(Keys.Down) || keyLock))
+			{
+				MapViewer.Update(0, 1);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.Left) && (lastKBState.IsKeyUp(Keys.Left) || keyLock))
+			{
+				MapViewer.Update(-1, 0);
+				keyLock = false;
+			}
+			if (kbState.IsKeyDown(Keys.Right) && (lastKBState.IsKeyUp(Keys.Right) || keyLock))
+			{
+				MapViewer.Update(1, 0);
+				keyLock = false;
+			}
+
+			if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter))
+			{
+				gameTextBox.AddText("You are trying to do something");
+				Point actionPoint = mainCharacter.Action();
+				ActionList = currentMap.Action(actionPoint);
+
+				if (ActionList.Count > 0)
+				{
+					int keyIndex = 1;
+					foreach (Actions possibleAction in ActionList)
+					{
+						gameTextBox.AddText(possibleAction.text + keyIndex);
+						keyIndex++;
+					}
+
+					waitingForResponse = true;
+				}
+				
+			}
+		}
+
+		public void ResponseIO()
+		{
+			int responseKey = 999;
+			if (kbState.IsKeyDown(Keys.Back))
+			{
+				waitingForResponse = false;
+			}
+			if(kbState.IsKeyDown(Keys.NumPad1))
+			{
+				responseKey = 1;
+			}
+			if (kbState.IsKeyDown(Keys.NumPad2))
+			{
+				responseKey = 2;
+			}
+			if (kbState.IsKeyDown(Keys.NumPad3))
+			{
+				responseKey = 3;
+			}
+			if (kbState.IsKeyDown(Keys.NumPad4))
+			{
+				responseKey = 4;
+			}
+
+			if(responseKey <= ActionList.Count)
+			{
+				gameTextBox.AddText(currentMap.Action(ActionList[responseKey-1].id, ActionList[responseKey-1].setOfActions));
+				waitingForResponse = false;
+			}
+			
+		}
     }
 }
