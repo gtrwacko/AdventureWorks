@@ -36484,12 +36484,14 @@
 #begin Arial20.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Arial20.spritefont
 
 #begin arial6.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:arial6.spritefont
 
@@ -36544,6 +36546,7 @@
 #begin CodersCrux28.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:CodersCrux28.spritefont
 
@@ -36598,6 +36601,7 @@
 #begin NewSpriteFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:NewSpriteFont.spritefont
 
@@ -36756,4 +36760,286 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:white_pressed.png
+
+#begin Sounds/Hero Demise.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Hero Demise.mp3
+
+#begin Sounds/Path to Lake Land.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Path to Lake Land.ogg
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_00.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_01.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_02.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_02.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_03.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_03.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_04.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_04.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_05.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_05.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_06.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_06.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_07.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_07.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_08.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_08.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Dirt_09.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Dirt_09.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_00.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_01.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_02.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_02.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_03.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_03.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_04.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_04.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_05.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_05.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_06.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_06.mp3
+
+#begin soundsMP3/Footsteps/Footstep_Water_07.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Footsteps/Footstep_Water_07.mp3
+
+#begin soundsMP3/Ambience_Cave_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Ambience_Cave_00.mp3
+
+#begin soundsMP3/Dragon_Growl_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Dragon_Growl_00.mp3
+
+#begin soundsMP3/Dragon_Growl_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Dragon_Growl_01.mp3
+
+#begin soundsMP3/Goblin_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Goblin_00.mp3
+
+#begin soundsMP3/Goblin_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Goblin_01.mp3
+
+#begin soundsMP3/Goblin_02.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Goblin_02.mp3
+
+#begin soundsMP3/Goblin_03.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Goblin_03.mp3
+
+#begin soundsMP3/Goblin_04.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Goblin_04.mp3
+
+#begin soundsMP3/Inventory_Open_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Inventory_Open_00.mp3
+
+#begin soundsMP3/Inventory_Open_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Inventory_Open_01.mp3
+
+#begin soundsMP3/Jingle_Achievement_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Jingle_Achievement_00.mp3
+
+#begin soundsMP3/Jingle_Lose_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Jingle_Lose_00.mp3
+
+#begin soundsMP3/Jingle_Win_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Jingle_Win_00.mp3
+
+#begin soundsMP3/Menu_Select_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Menu_Select_00.mp3
+
+#begin soundsMP3/Pickup_Gold_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Pickup_Gold_00.mp3
+
+#begin soundsMP3/Pickup_Gold_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Pickup_Gold_01.mp3
+
+#begin soundsMP3/Pickup_Gold_02.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Pickup_Gold_02.mp3
+
+#begin soundsMP3/Pickup_Gold_03.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Pickup_Gold_03.mp3
+
+#begin soundsMP3/Pickup_Gold_04.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Pickup_Gold_04.mp3
+
+#begin soundsMP3/Spell_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Spell_00.mp3
+
+#begin soundsMP3/Spell_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Spell_01.mp3
+
+#begin soundsMP3/Spell_02.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Spell_02.mp3
+
+#begin soundsMP3/Spell_03.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Spell_03.mp3
+
+#begin soundsMP3/Spell_04.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Spell_04.mp3
+
+#begin soundsMP3/Trap_00.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Trap_00.mp3
+
+#begin soundsMP3/Trap_01.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Trap_01.mp3
+
+#begin soundsMP3/Trap_02.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:soundsMP3/Trap_02.mp3
 

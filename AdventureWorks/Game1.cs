@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 
@@ -29,6 +31,9 @@ namespace AdventureWorks
 
         KeyboardState kbState;
         KeyboardState lastKBState;
+
+		Song backGroundMusic;
+		SoundEffect walkingFX;
 
         //keylockswitch
         bool keyLock;
@@ -100,7 +105,17 @@ namespace AdventureWorks
             arial6 = Content.Load<SpriteFont>("arial6");
 
 
-        }
+			//backGroundMusic = Content.Load<Song>(@"Sounds/Hero Demise");
+			//MediaPlayer.Play(backGroundMusic);
+			//MediaPlayer.IsRepeating = true;
+
+			//walkingFX = Content.Load <SoundEffect>(@"soundsMP3/Footsteps/Footstep_Dirt_00");
+			// Play that can be manipulated after the fact
+			//var instance = walkingFX.CreateInstance();
+			//instance.IsLooped = true;
+			//instance.Play();
+
+		}
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -284,7 +299,6 @@ namespace AdventureWorks
 
 			if (kbState.IsKeyDown(Keys.Enter) && lastKBState.IsKeyUp(Keys.Enter))
 			{
-				gameTextBox.AddText("You are trying to do something");
 				Point actionPoint = mainCharacter.Action();
 				ActionList = currentMap.Action(actionPoint);
 
